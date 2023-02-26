@@ -1,0 +1,20 @@
+{
+  "name": "postbank",
+  "version": "1.0.0",
+  "description": "Post-Bank-App",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon app.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/asharma29/Post-Bank-service-BE.git"
+  },
+  "author": "abhishek sharma",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/asharma29/Post-Bank-service-BE/issues"
+  },
+  "homepage": "https://github.com/asharma29/Post-Bank-service-BE#readme"
+}
