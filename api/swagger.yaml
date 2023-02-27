@@ -1,12 +1,34 @@
+---
 swagger: '2.0'
 info:
   version: 1.0.0
-  title: Simple example API
+  title: POST bank API
   description: An API to illustrate Swagger
+  contact: 
+    email:  krbsharma@gmail.com
+schemes:
+- http
+host: localhost:8000
+tags:
+- name: "users"
+  description: "operations for users"    
 paths:
-  /list:
+  /users:
     get:
-      description: Returns a list of stuff              
+      tags:
+      - 'users'
+      operationId: getUsers
+      summary: Get Users List
+      description: Returns a list of Users
+      produces:
+      - application/json
+      parameters:
+      - name: "entryNum"
+        in: "header"
+        description: "userId need to be searched"
+        required: false
+        type: 'string'            
       responses:
         200:
           description: Successful response 
+      x-swagger-router-controller: "user"    

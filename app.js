@@ -22,9 +22,11 @@ mongoose.connect('mongodb+srv://admin:admin@cluster0.zgw7u.mongodb.net/?retryWri
 
 const options = {
     swaggerUi: path.join(__dirname, '/swagger.json'),
-    controller: path.join(__dirname, './controllers'),
+    controllers: path.join(__dirname, '/src/controllers'),
     useStubs: process.env.NODE_ENV === 'development' ? true : false
 }
+
+
 
 const spec = fs.readFileSync(path.join(__dirname, 'api/swagger.yaml'), 'utf8')
 
@@ -43,6 +45,8 @@ swaggerTools.initializeMiddleware(swaggerDoc, function(middleware){
     app.use(middleware.swaggerUi(uiOptions));
 
     app.use(function(err, req , res ,next){
+        console.log("err" , err)
+        console.log("req" , req.url)
         let reqUrl = '/users/v1/users';
         if(reqUrl.indexOf(req.url + req.method) == -1){
             const errorResponse = {
