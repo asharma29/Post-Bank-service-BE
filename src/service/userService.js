@@ -2,16 +2,13 @@
 
 const mongoModel = require("../model/userModel");
 
-module.exports.getUsers = function (userId)  {
+module.exports.getUsers = function (userId) {
     // console.log("🚀 ~ file: userService.js:6 ~ usersId:", usersId)
-    return new Promise(async (resolve , reject) => {
+    return new Promise(async (resolve, reject) => {
         try {
-            if(userId){
-                console.log("🚀 ~ file: userService.js:10 ~ returnnewPromise ~ usersId:", userId)
-                mongoModel.find({entryNum: userId} , (err ,docs) => {
-                    console.log("🚀 ~ file: userService.js:12 ~ mongoModel.find ~ docs:", docs)
-                    console.log("🚀 ~ file: userService.js:12 ~ mongoModel.find ~ err:", err)
-                    if(!err){
+            if (userId) {
+                mongoModel.find({ entryNum: userId }, (err, docs) => {
+                    if (!err) {
                         return resolve(docs);
                     } else {
                         return resolve("docs not found")
@@ -19,7 +16,7 @@ module.exports.getUsers = function (userId)  {
                 })
             } else {
                 mongoModel.find((err, docs) => {
-                    if(!err){
+                    if (!err) {
                         return resolve(docs);
                     } else {
                         return resolve("docs not found")
@@ -27,41 +24,46 @@ module.exports.getUsers = function (userId)  {
                 })
             }
         } catch (error) {
-            
+
         }
     })
 
 }
 
-module.exports.addUsers = function(usersId , body){
-    return new Promise((resolve , reject) => {
-            try {
-              mongoModel.find({
+module.exports.addUsers = function (usersId, body) {
+    return new Promise((resolve, reject) => {
+        try {
+            mongoModel.find({
                 $or: [
-                  {
-                    name: body.name
-                  },
-                  {
-                    email: body.email
-                  }
-                ]
-              })
-              .then(user => {
-                if(user.length >= 1){
-                    return reject("User Exsits")
-                } else {
-                    const user = new mongoModel(body);
-                
-                user.save();
-                return resolve(user)
-                }
-              })
-                
-            } catch (error) {
+                    {
+                        name: body.name
+                    },
+                    {
+                        email: body.email
+                    },
+                    {
 
-                console.log("error" , error)
-                
-            }
+                        entryNum: body.entryNum
+
+                    }
+                ]
+            })
+                .then(user => {
+                    if (user.length >= 1) {
+                        return reject("User Exsits")
+                    } else {
+                        const user = new mongoModel(body);
+
+                        user.save();
+                        return resolve(user)
+                    }
+                })
+
+        } catch (error) {
+
+            console.log("error", error)
+
+        }
 
     })
 }
