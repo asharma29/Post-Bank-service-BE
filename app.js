@@ -8,7 +8,6 @@ bodyParser = require("body-parser"),
 fs = require('fs'),
 http = require("http"),
 port = '8000'
-
 const swaggerTools = require("swagger-tools");
 const { application, json } = require("express");
 mongoose.set("strictQuery", false);

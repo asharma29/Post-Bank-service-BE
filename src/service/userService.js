@@ -36,9 +36,18 @@ module.exports.getUsers = function (userId)  {
 module.exports.addUsers = function(usersId , body){
     return new Promise((resolve , reject) => {
             try {
-                const user = new mongoModel(body);
+              mongoModel.find({name: body.name})
+              .then(user => {
+                if(user.length >= 1){
+                    return reject("User Exsits")
+                } else {
+                    const user = new mongoModel(body);
+                
                 user.save();
                 return resolve(user)
+                }
+              })
+                
             } catch (error) {
 
                 console.log("error" , error)
