@@ -47,7 +47,7 @@ paths:
           required: false
           type: string
         - in: body
-          name: nody
+          name: body
           description: request body to add in Users DB
           required: true
           schema:
