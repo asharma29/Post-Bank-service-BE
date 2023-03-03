@@ -1,34 +1,82 @@
 ---
-swagger: '2.0'
+swagger: "2.0"
 info:
   version: 1.0.0
   title: POST bank API
   description: An API to illustrate Swagger
-  contact: 
-    email:  krbsharma@gmail.com
+  contact:
+    email: krbsharma@gmail.com
 schemes:
-- http
+  - http
 host: localhost:8000
 tags:
-- name: "users"
-  description: "operations for users"    
+  - name: users
+    description: operations for users
 paths:
   /users:
     get:
       tags:
-      - 'users'
+        - users
       operationId: getUsers
       summary: Get Users List
       description: Returns a list of Users
       produces:
-      - application/json
+        - application/json
       parameters:
-      - name: "entryNum"
-        in: "header"
-        description: "userId need to be searched"
-        required: false
-        type: 'string'            
+        - name: entryNum
+          in: header
+          description: userId need to be searched
+          required: false
+          type: string
       responses:
-        200:
-          description: Successful response 
-      x-swagger-router-controller: "user"    
+        "200":
+          description: Successful response
+      x-swagger-router-controller: user
+    post:
+      tags:
+        - users
+      operationId: addUsers
+      summary: Add Users List
+      description: Creates a list of Users
+      produces:
+        - application/json
+      parameters:
+        - name: entryNum
+          in: header
+          description: userId need to be added
+          required: false
+          type: string
+        - in: body
+          name: nody
+          description: request body to add in Users DB
+          required: true
+          schema:
+            $ref: "#/definitions/users"
+      responses:
+        "200":
+          description: Successful response
+      x-swagger-router-controller: user
+definitions:
+  users:
+    type: object
+    required:
+      - name
+      - email
+      - entryNum
+    properties:
+      name:
+        type: string
+        example: Abhishek Sharma
+        description: Name od User
+      email:
+        type: string
+        example: krbsharma@gmail.com
+        description: enter user's email
+      entryNum:
+        type: integer
+        format: int64
+        example: "1"
+    example:
+        name: Abhishek Sharma
+        email: Krbsharma@gmil.com
+        entryNum: "1"

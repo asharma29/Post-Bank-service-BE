@@ -15,3 +15,7 @@ module.exports.getUsers = (req , res ,next) => {
         res.send(response);
     })
 }
+
+module.exports.addUsers= (req, res , next) => {
+    res.send("User Addd")
+}
