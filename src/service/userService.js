@@ -31,6 +31,7 @@ module.exports.getUsers = function (userId) {
 }
 
 module.exports.addUsers = function (usersId, body) {
+    console.log("🚀 ~ file: userService.js ~ line 34 ~ body", body)
     return new Promise((resolve, reject) => {
         try {
             mongoModel.find({
@@ -45,25 +46,32 @@ module.exports.addUsers = function (usersId, body) {
 
                         entryNum: body.entryNum
 
-                    }
+                    },
                 ]
             })
                 .then(user => {
+                    console.log("user53" , user)
                     if (user.length >= 1) {
-                        return reject("User Exsits")
+                        console.log("🚀 ~ file: userService.js ~ line 55 ~ returnnewPromise ~ user.length", user.length)
+                        return reject({
+                            "status": 500,
+                            "message": "Users Already Exsit"
+                        })
                     } else {
-                        const user = new mongoModel(body);
-
+                        console.log("body56" , body)
+                        let  user = new mongoModel(body);
+                         console.log("🚀 ~ file: userService.js ~ line 63 ~ returnnewPromise ~ user", user)
                         user.save();
                         return resolve(user)
                     }
                 })
+                         
 
         } catch (error) {
-
             console.log("error", error)
 
         }
+                
 
     })
 }

@@ -2,6 +2,7 @@
 const exp = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const cors = require('cors');
 const jsyaml = require("js-yaml");
 const app = exp(),
 bodyParser = require("body-parser"),
@@ -24,9 +25,18 @@ const options = {
     controllers: path.join(__dirname, '/src/controllers'),
     useStubs: process.env.NODE_ENV === 'development' ? true : false
 }
-
-
-
+const corsOptions ={
+    origin:'http://localhost:3000', 
+    credentials:true,            //access-control-allow-credentials:true
+    optionSuccessStatus:200
+}
+app.use(cors(corsOptions));
+app.use(function(req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', "*");
+    res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type' , 'X-Requested-With');
+    next();
+})
 const spec = fs.readFileSync(path.join(__dirname, 'api/swagger.yaml'), 'utf8')
 
 const swaggerDoc = jsyaml.load(spec);
@@ -42,7 +52,12 @@ swaggerTools.initializeMiddleware(swaggerDoc, function(middleware){
     app.use(middleware.swaggerSecurity(options));
     app.use(middleware.swaggerRouter(options));
     app.use(middleware.swaggerUi(uiOptions));
-
+    app.use(function(req, res, next) {
+        res.setHeader('Access-Control-Allow-Origin', "*");
+        res.setHeader('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+        res.setHeader('Access-Control-Allow-Headers', 'Content-Type' , 'X-Requested-With');
+        next();
+    })
     app.use(function(err, req , res ,next){
         console.log("err" , err)
         console.log("req" , req.url)
